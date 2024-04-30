@@ -1,2 +1,5 @@
-# brick_sieve
-A sieve to pre-sort your Lego bricks from large to small
+# Brick Sieve
+A sieve to pre-sort your Lego(TM) bricks from large to small.
+
+
+
