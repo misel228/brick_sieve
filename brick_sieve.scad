@@ -3,7 +3,7 @@
 sieve_size=8;
 
 // outer diameter of everything
-diameter = 200;
+diameter = 180;
 
 // height of the top outer ring
 height=30;
@@ -19,14 +19,14 @@ in_lay=5;
 // the outside of lower ring should be a little smaller than
 // the inside of the upper ring so that there's a little wiggle 
 // room
-overhang=.1;
+overhang=.5;
 
 
 // width of the bars in the grid
 grid_strength = 2;
 
 // width of the lip around the grid
-lip_size = 5;
+lip_size = 3;
 
 // number of faces used for the cylinders
 $fn=100;
@@ -35,28 +35,35 @@ $fn=100;
 // /*
 difference() {
     
-    cylinder(h=height, r = (diameter/2));
+    cylinder(
+        h = height, 
+        r = (diameter/2)
+    );
 
-    cylinder(h=height, r = ((diameter - wall_strength)/2));
+    cylinder(
+        h = height, 
+        // 2x wall_strength because we have 2 walls on each side
+        r = ((diameter - (2 * wall_strength))/2)
+    );
 }
 
 // */
 
 /* connection between */
 
-inner_diameter = diameter - wall_strength;
+inner_diameter = diameter - (2 * wall_strength);
 
 // /*
 difference() {
     
     cylinder(
-        h=wall_strength, 
+        h = wall_strength, 
         r = (diameter/2)
     );
 
     cylinder(
-        h=wall_strength, 
-        r = ((inner_diameter - wall_strength - overhang)/2)
+        h = wall_strength, 
+        r = ((inner_diameter - (2 * (wall_strength + overhang)))/2)
     );
 }
 
@@ -75,7 +82,7 @@ translate([0,0,-1 * (sieve_height)])
 
         cylinder(
             h=sieve_height, 
-            r = ((inner_diameter - overhang - wall_strength)/2)
+            r = ((inner_diameter - (2 * (wall_strength + overhang)))/2)
         );
     }
 
@@ -93,23 +100,23 @@ union() {
         difference() {
             
             cylinder(
-                h=wall_strength, 
+                h = wall_strength, 
                 r = ((inner_diameter  - overhang) /2)
             );
 
             cylinder(
-                h= wall_strength, 
-                r = ((inner_diameter - overhang - wall_strength - lip_size)/2)
+                h = wall_strength, 
+                r = ((inner_diameter - (2 * (overhang + wall_strength + lip_size)))/2)
             );
         }
 
 
     /* grid */
-    
+
     difference() {
         translate([0,0,-1 * (sieve_height)])
             cylinder(
-                h=wall_strength,
+                h = grid_strength,
                 r = ((inner_diameter  - overhang) /2)
             );
 
